@@ -6,7 +6,7 @@
 /*   By: zbenaiss <zbenaiss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:54:45 by zbenaiss          #+#    #+#             */
-/*   Updated: 2022/11/09 13:03:11 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2022/11/09 14:31:37 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -42,10 +42,10 @@ void	nigativity(int *number, int *tracker)
 	}
 }
 
-void ft_write_numbers(int number, char *basestr, int wptr, int *tracker)
+void	ft_write_numbers(int number, char *basestr, int wptr, int *tracker)
 {
-	int baselen;
-	
+	int	baselen;
+
 	baselen = ft_strlen(basestr);
 	wptr = ptrcheck(wptr, tracker);
 	nigativity(&number, tracker);
@@ -54,10 +54,12 @@ void ft_write_numbers(int number, char *basestr, int wptr, int *tracker)
 		if (wptr == 0)
 			ft_write_numbers(number / baselen, basestr, wptr, tracker);
 		else if (wptr == 2)
-			ft_write_numbers(((unsigned int)number) / baselen, basestr, wptr, tracker);
+			ft_write_numbers(((unsigned int)number) / baselen, basestr, wptr,
+				tracker);
 	}
 	if (baselen == 16 && wptr == 3 && number > baselen - 1)
-			ft_write_numbers(((unsigned long)number) / baselen, basestr, wptr, tracker);
+		ft_write_numbers(((unsigned long)number) / baselen, basestr, wptr,
+			tracker);
 	ft_putchar(basestr[number % baselen], tracker);
 }
 
