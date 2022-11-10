@@ -6,12 +6,11 @@
 /*   By: zbenaiss <zbenaiss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/08 15:54:45 by zbenaiss          #+#    #+#             */
-/*   Updated: 2022/11/09 14:31:37 by zbenaiss         ###   ########.fr       */
+/*   Updated: 2022/11/10 13:31:51 by zbenaiss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
 int	ft_strlen(char *str)
 {
@@ -33,7 +32,7 @@ int	ptrcheck(int wptr, int *tracker)
 	return (wptr);
 }
 
-void	nigativity(int *number, int *tracker)
+void	nigativity(long *number, int *tracker)
 {
 	if (*number < 0)
 	{
@@ -42,32 +41,26 @@ void	nigativity(int *number, int *tracker)
 	}
 }
 
-void	ft_write_numbers(int number, char *basestr, int wptr, int *tracker)
+void	ft_write_numbers(unsigned long number, char *basestr, int wptr,
+		int *tracker)
+{
+	size_t	baselen;
+
+	baselen = ft_strlen(basestr);
+	if (wptr == 1)
+		wptr = ptrcheck(wptr, tracker);
+	if (number > baselen - 1)
+		ft_write_numbers(number / baselen, basestr, wptr, tracker);
+	ft_putchar(basestr[number % baselen], tracker);
+}
+
+void	ft_write_integer(long number, char *basestr, int *tracker)
 {
 	int	baselen;
 
 	baselen = ft_strlen(basestr);
-	wptr = ptrcheck(wptr, tracker);
 	nigativity(&number, tracker);
-	if (baselen == 10 && number > baselen - 1)
-	{
-		if (wptr == 0)
-			ft_write_numbers(number / baselen, basestr, wptr, tracker);
-		else if (wptr == 2)
-			ft_write_numbers(((unsigned int)number) / baselen, basestr, wptr,
-				tracker);
-	}
-	if (baselen == 16 && wptr == 3 && number > baselen - 1)
-		ft_write_numbers(((unsigned long)number) / baselen, basestr, wptr,
-			tracker);
+	if (number > baselen - 1)
+		ft_write_integer(number / baselen, basestr, tracker);
 	ft_putchar(basestr[number % baselen], tracker);
 }
-
-// int main()
-// {
-// 	int number = 47925535;
-// 	int count = 0;
-// 	int *tracker = &count;
-// 	ft_write_numbers(023145, "0123456789", 0, tracker);
-// 	printf("\n%i", 023145);
-// }
